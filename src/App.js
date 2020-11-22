@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { firestore } from "./firebase";
+import "./App.css";
 
 function App() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const snapshot = await firestore.collection("recipes").get();
+
+      snapshot.forEach((doc) => {
+        const id = doc.id;
+        const data = doc.data();
+
+        console.log("id, data :", { id, data });
+      });
+    };
+
+    fetchData();
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Rowe Cook Book</h1>
     </div>
   );
 }
