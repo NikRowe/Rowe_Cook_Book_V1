@@ -5,7 +5,7 @@ const Recipe = ({
   contents,
   ingredients,
   instructions,
-  stars,
+  plates,
   comments,
   image,
   user,
@@ -33,7 +33,7 @@ const Recipe = ({
             <span role="img" aria-label="fork and knife with plate">
               🍽
             </span>
-            {stars}
+            {plates}
           </p>
           <p>
             <span role="img" aria-label="comments">
@@ -65,7 +65,7 @@ Recipe.defaultProps = {
     email: "TommyJ@mailinator.com",
     photoURL: "https://www.fillmurray.com/300/300",
   },
-  stars: 0,
+  plates: 0,
   comments: 0,
 };
 
