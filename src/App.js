@@ -14,7 +14,6 @@ const App = () => {
       const recipes = snapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
-      console.log("recipes :", recipes);
 
       setRecipes(recipes);
     };
@@ -23,8 +22,7 @@ const App = () => {
   }, []);
 
   const handleCreate = (recipe) => {
-    const { recipes } = this.useState;
-    setRecipes({ recipes: [recipe, ...recipes] });
+    setRecipes([recipe, ...recipes]);
   };
 
   return (
