@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 
+/* !!!-- THIS WILL EVENTUALLY BE A MODAL --!!! */
 const AddRecipe = ({ onCreate }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [instructions, setInstructions] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    name === "title" ? setTitle(value) : setContent(value);
+    name === "title"
+      ? setTitle(value)
+      : name === "content"
+      ? setContent(value)
+      : name === "ingredients"
+      ? setIngredients([value])
+      : setInstructions([value]);
+    console.log(content);
   };
 
   const handleSubmit = (e, onCreate) => {
@@ -16,8 +26,8 @@ const AddRecipe = ({ onCreate }) => {
       id: Date.now().toString(),
       title,
       content,
-      ingredients: ["1/2 Cup Sugar", "1 Apple", "1 Sheet Puff Pastry"],
-      instructions: ["Preheat Oven to 350", "Let Pasty thaw at room temp"],
+      ingredients,
+      instructions,
       image: "https://www.fillmurray.com/300/300",
       user: {
         id: "123",
@@ -33,6 +43,8 @@ const AddRecipe = ({ onCreate }) => {
 
     setTitle("");
     setContent("");
+    setIngredients("");
+    setInstructions("");
   };
 
   return (
@@ -47,8 +59,22 @@ const AddRecipe = ({ onCreate }) => {
       <input
         type="text"
         name="content"
-        placeholder="Body"
+        placeholder="Notes"
         value={content}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="ingredients"
+        placeholder="Ingredient 1"
+        value={ingredients}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="instructions"
+        placeholder="Instruction 1"
+        value={instructions}
         onChange={handleChange}
       />
       <input className="create" type="submit" value="Create Recipe" />
