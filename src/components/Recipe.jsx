@@ -2,7 +2,7 @@ import React from "react";
 
 const Recipe = ({
   title,
-  contents,
+  content,
   ingredients,
   instructions,
   plates,
@@ -15,17 +15,17 @@ const Recipe = ({
       <div className="recipe--content">
         <h3>{title}</h3>
         <img src={image} alt="meal" />
-        {ingredients.map((ingredient, i) => (
-          <ul key={i}>
-            <li>{ingredient}</li>
-          </ul>
-        ))}
+        <ul>
+          {ingredients.map((ingredient, i) => (
+            <li key={i}>{ingredient}</li>
+          ))}
+        </ul>
         <ol>
           {instructions.map((instruction, i) => (
             <li key={i}>{instruction}</li>
           ))}
         </ol>
-        <div>{contents}</div>
+        <div>{content}</div>
       </div>
       <div className="recipe--meta">
         <div>
