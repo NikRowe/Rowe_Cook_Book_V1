@@ -2,6 +2,7 @@ import React from "react";
 import Recipe from "./Recipe";
 import AddRecipe from "./AddRecipe";
 
+/* !!!--- THIS GOES THROUGH THE RECIPES ARRAY, COPIES IT AND THEN RENDERS EACH RECIPE */
 const Recipes = ({ recipes, onCreate }) => {
   console.log("recipes :", recipes);
   return (
