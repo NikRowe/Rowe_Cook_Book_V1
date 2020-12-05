@@ -21,18 +21,36 @@ const App = () => {
   }, []);
 
   const handleCreate = async (recipe) => {
+    // Get the collection from firebase again but add  recipe this time//
     const docRef = await firestore.collection("recipes").add(recipe);
     const doc = await docRef.get();
 
+    // Set the new recipe from firebase store as an {} //
     const newRecipe = collectIdsAndDocs(doc);
 
+    // Set the new recipe {} into state for displaying to user //
     setRecipes([newRecipe, ...recipes]);
+  };
+
+  const handleRemove = async (id) => {
+    const allRecipes = recipes;
+
+    // removes current post from firestore db //
+    await firestore.doc(`recipes/${id}`).delete();
+
+    const updatedRecipes = allRecipes.filter((recipe) => recipe.id !== id);
+
+    setRecipes(updatedRecipes);
   };
 
   return (
     <div className="App">
       <h1>Rowe Cook Book</h1>
-      <Recipes recipes={recipes} onCreate={handleCreate} />
+      <Recipes
+        recipes={recipes}
+        onCreate={handleCreate}
+        onRemove={handleRemove}
+      />
     </div>
   );
 };
