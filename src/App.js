@@ -3,6 +3,7 @@ import { firestore } from "./firebase";
 import "./App.css";
 
 import Recipes from "./components/Recipes";
+import { collectIdsAndDocs } from "./utilities";
 
 const App = () => {
   const [recipes, setRecipes] = useState([]);
@@ -11,9 +12,7 @@ const App = () => {
     const fetchData = async () => {
       const snapshot = await firestore.collection("recipes").get();
 
-      const recipes = snapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
+      const recipes = snapshot.docs.map(collectIdsAndDocs);
 
       setRecipes(recipes);
     };
@@ -21,8 +20,13 @@ const App = () => {
     fetchData();
   }, []);
 
-  const handleCreate = (recipe) => {
-    setRecipes([recipe, ...recipes]);
+  const handleCreate = async (recipe) => {
+    const docRef = await firestore.collection("recipes").add(recipe);
+    const doc = await docRef.get();
+
+    const newRecipe = collectIdsAndDocs(doc);
+
+    setRecipes([newRecipe, ...recipes]);
   };
 
   return (
