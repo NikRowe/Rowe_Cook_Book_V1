@@ -23,7 +23,6 @@ const AddRecipe = ({ onCreate }) => {
     e.preventDefault();
 
     const recipe = {
-      id: Date.now().toString(),
       title,
       content,
       ingredients,
