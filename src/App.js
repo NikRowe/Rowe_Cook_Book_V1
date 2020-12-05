@@ -9,15 +9,22 @@ const App = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
+    let unsubscribe = null;
+
+    // gets firebase store data and subscribes via onSnapshot() then sets to state for visualization //
     const fetchData = async () => {
-      const snapshot = await firestore.collection("recipes").get();
-
-      const recipes = snapshot.docs.map(collectIdsAndDocs);
-
-      setRecipes(recipes);
+      unsubscribe = firestore.collection("recipes").onSnapshot((snapshot) => {
+        const recipes = snapshot.docs.map(collectIdsAndDocs);
+        setRecipes(recipes);
+      });
     };
 
     fetchData();
+
+    // "clean up" previously done with componentWillUnmount() to prevent memory leak //
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const handleCreate = async (recipe) => {
