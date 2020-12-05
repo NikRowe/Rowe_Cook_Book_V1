@@ -9,6 +9,8 @@ const Recipe = ({
   comments,
   image,
   user,
+  onRemove,
+  id,
 }) => {
   return (
     <article className="recipe">
@@ -45,7 +47,9 @@ const Recipe = ({
         </div>
         <div>
           <button className="star">Star</button>
-          <button className="delete">Delete</button>
+          <button className="delete" onClick={() => onRemove(id)}>
+            Delete
+          </button>
         </div>
       </div>
     </article>
