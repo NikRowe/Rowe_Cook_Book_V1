@@ -1,4 +1,5 @@
 import React from "react";
+import { firestore } from "../firebase";
 
 const Recipe = ({
   title,
@@ -9,9 +10,11 @@ const Recipe = ({
   comments,
   image,
   user,
-  onRemove,
   id,
 }) => {
+  const postRef = firestore.doc(`recipes/${id}`);
+  const remove = () => postRef.delete();
+
   return (
     <article className="recipe">
       <div className="recipe--content">
@@ -47,7 +50,7 @@ const Recipe = ({
         </div>
         <div>
           <button className="star">Star</button>
-          <button className="delete" onClick={() => onRemove(id)}>
+          <button className="delete" onClick={remove}>
             Delete
           </button>
         </div>

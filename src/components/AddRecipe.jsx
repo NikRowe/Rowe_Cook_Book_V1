@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { firestore } from "../firebase";
 
 /* !!!-- THIS WILL EVENTUALLY BE A MODAL --!!! */
-const AddRecipe = ({ onCreate }) => {
+const AddRecipe = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [ingredients, setIngredients] = useState("");
@@ -16,10 +17,9 @@ const AddRecipe = ({ onCreate }) => {
       : name === "ingredients"
       ? setIngredients([value])
       : setInstructions([value]);
-    console.log(content);
   };
 
-  const handleSubmit = (e, onCreate) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const recipe = {
@@ -38,7 +38,7 @@ const AddRecipe = ({ onCreate }) => {
       comments: 0,
     };
 
-    onCreate(recipe);
+    firestore.collection("recipes").add(recipe);
 
     setTitle("");
     setContent("");
@@ -47,7 +47,7 @@ const AddRecipe = ({ onCreate }) => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, onCreate)} className="AddRecipe">
+    <form onSubmit={(e) => handleSubmit(e)} className="AddRecipe">
       <input
         type="text"
         name="title"

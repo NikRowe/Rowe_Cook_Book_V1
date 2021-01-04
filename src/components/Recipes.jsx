@@ -3,13 +3,13 @@ import Recipe from "./Recipe";
 import AddRecipe from "./AddRecipe";
 
 /* !!!--- THIS GOES THROUGH THE RECIPES ARRAY, COPIES IT AND THEN RENDERS EACH RECIPE */
-const Recipes = ({ recipes, onCreate, onRemove }) => {
+const Recipes = ({ recipes }) => {
   console.log("recipes :", recipes);
   return (
     <section className="Recipes">
-      <AddRecipe onCreate={onCreate} />
+      <AddRecipe />
       {recipes.map((recipe) => (
-        <Recipe {...recipe} key={recipe.id} onRemove={onRemove} />
+        <Recipe {...recipe} key={recipe.id} />
       ))}
     </section>
   );

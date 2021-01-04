@@ -30,24 +30,10 @@ const App = () => {
     };
   }, []);
 
-  const handleCreate = async (recipe) => {
-    // Adds the recipe to the Firebase Collection - No need to setState() as our subscription to the store will update everything upon every change. //
-    firestore.collection("recipes").add(recipe);
-  };
-
-  const handleRemove = async (id) => {
-    // removes current recjipe from Firebase collection - no need to setState() or filter() to remove the id from state due to firstore subscription//
-    firestore.doc(`recipes/${id}`).delete();
-  };
-
   return (
     <div className="App">
       <h1>Rowe Cook Book</h1>
-      <Recipes
-        recipes={recipes}
-        onCreate={handleCreate}
-        onRemove={handleRemove}
-      />
+      <Recipes recipes={recipes} />
     </div>
   );
 };
