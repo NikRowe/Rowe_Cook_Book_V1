@@ -11,7 +11,10 @@ const App = () => {
   useEffect(() => {
     let unsubscribe = null;
 
-    // gets firebase store data and subscribes via onSnapshot() then sets to state for visualization //
+    /* gets firebase store data and subscribes via onSnapshot() then sets to state for visualization - this will use more api calls as it is calling the API and updating the app anytime this FB collection is being changed. 
+    
+    You can totally use .get() instead of .onSnapshot() and manually setState() so that the api is only called upon refreshing the page to reduce our API calls. 
+    */
     const fetchData = async () => {
       unsubscribe = firestore.collection("recipes").onSnapshot((snapshot) => {
         const recipes = snapshot.docs.map(collectIdsAndDocs);
@@ -28,26 +31,13 @@ const App = () => {
   }, []);
 
   const handleCreate = async (recipe) => {
-    // Get the collection from firebase again but add  recipe this time//
-    const docRef = await firestore.collection("recipes").add(recipe);
-    const doc = await docRef.get();
-
-    // Set the new recipe from firebase store as an {} //
-    const newRecipe = collectIdsAndDocs(doc);
-
-    // Set the new recipe {} into state for displaying to user //
-    setRecipes([newRecipe, ...recipes]);
+    // Adds the recipe to the Firebase Collection - No need to setState() as our subscription to the store will update everything upon every change. //
+    firestore.collection("recipes").add(recipe);
   };
 
   const handleRemove = async (id) => {
-    const allRecipes = recipes;
-
-    // removes current post from firestore db //
-    await firestore.doc(`recipes/${id}`).delete();
-
-    const updatedRecipes = allRecipes.filter((recipe) => recipe.id !== id);
-
-    setRecipes(updatedRecipes);
+    // removes current recjipe from Firebase collection - no need to setState() or filter() to remove the id from state due to firstore subscription//
+    firestore.doc(`recipes/${id}`).delete();
   };
 
   return (
