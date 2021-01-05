@@ -14,10 +14,11 @@ const Recipe = ({
 }) => {
   const postRef = firestore.doc(`recipes/${id}`);
   const remove = () => postRef.delete();
+  const plate = () => postRef.update({ plates: plates + 1 });
 
   return (
     <article className="recipe">
-      <div className="recipe--content">
+      <div className="recipe__content">
         <h3>{title}</h3>
         <img src={image} alt="meal" />
         <ul>
@@ -32,7 +33,7 @@ const Recipe = ({
         </ol>
         <div>{content}</div>
       </div>
-      <div className="recipe--meta">
+      <div className="recipe__info">
         <div>
           <p>
             <span role="img" aria-label="fork and knife with plate">
@@ -49,8 +50,10 @@ const Recipe = ({
           <p>Posted by {user.displayName}</p>
         </div>
         <div>
-          <button className="star">Star</button>
-          <button className="delete" onClick={remove}>
+          <button className="recipe__info-plate" onClick={plate}>
+            Plate
+          </button>
+          <button className="recipe__info-delete" onClick={remove}>
             Delete
           </button>
         </div>
