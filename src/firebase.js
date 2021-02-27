@@ -23,7 +23,6 @@ export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const signInWithGoogle = () => auth.signInWithPopup(provider); // brigns up a popup for google signin //
 export const signOut = () => auth.signOut(); // signs out of current user //
-
 const settings = { timestampInSnapShots: true };
 firestore.settings(settings);
 
