@@ -20,7 +20,7 @@ const Recipe = ({
     <article className="recipe">
       <div className="recipe__content">
         <h3>{title}</h3>
-        <img src={image} alt="meal" />
+        <img src={image} alt="meal" className="recipeImg" />
         <ul>
           {ingredients.map((ingredient, i) => (
             <li key={i}>{ingredient}</li>
