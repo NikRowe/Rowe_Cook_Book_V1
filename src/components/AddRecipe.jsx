@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { firestore } from "../firebase";
+import { auth, firestore } from "../firebase";
 
 /* !!!-- THIS WILL EVENTUALLY BE A MODAL --!!! */
 const AddRecipe = () => {
@@ -22,6 +22,8 @@ const AddRecipe = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const { uid, displayName, email, photoURL } = auth.currentUser;
+
     const recipe = {
       title,
       content,
@@ -29,10 +31,10 @@ const AddRecipe = () => {
       instructions,
       image: "https://www.fillmurray.com/300/300",
       user: {
-        id: "123",
-        displayName: "Thomas Jefferson",
-        email: "TommyJ@mailinator.com",
-        photoURL: "https://www.fillmurray.com/300/300",
+        uid,
+        displayName,
+        email,
+        photoURL,
       },
       plates: 0,
       comments: 0,
