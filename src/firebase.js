@@ -1,5 +1,6 @@
 import firebase from "firebase/app"; //app is the barebones to get by instead of just firebase which will get everything //
 import "firebase/firestore";
+import "firebase/auth";
 
 var firebaseConfig = {
   apiKey: "AIzaSyCsC2GK9kP7-2IHrSzYj1PCkJpuHiAZ4w4",
@@ -17,6 +18,11 @@ firebase.initializeApp(firebaseConfig);
 //   firebase.analytics();
 
 export const firestore = firebase.firestore();
+export const auth = firebase.auth();
+
+export const provider = new firebase.auth.GoogleAuthProvider();
+export const signInWithGoogle = () => auth.signInWithPopup(provider); // brigns up a popup for google signin //
+export const signOut = () => auth.signOut(); // signs out of current user //
 
 const settings = { timestampInSnapShots: true };
 firestore.settings(settings);
