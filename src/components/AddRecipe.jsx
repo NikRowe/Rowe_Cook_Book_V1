@@ -29,7 +29,8 @@ const AddRecipe = () => {
       content,
       ingredients,
       instructions,
-      image: "https://www.fillmurray.com/300/300",
+      image:
+        "https://cdn.shopify.com/s/files/1/0041/7497/0991/files/New_ELF_Logo_Maroon_Straight_1_2784x.png?v=1551209746",
       user: {
         uid,
         displayName,
