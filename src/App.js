@@ -27,10 +27,9 @@ const App = () => {
         });
 
       unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-        setUser({ user });
+        setUser(user);
+        console.log("user :", user);
       });
-
-      unsubscribeFromAuth();
     };
 
     fetchData();
