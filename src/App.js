@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { firestore, auth } from "./firebase";
+import { firestore, auth, createUserProfileDocument } from "./firebase";
 import "./App.css";
 
 import Recipes from "./components/Recipes";
@@ -26,9 +26,10 @@ const App = () => {
           setRecipes(recipes);
         });
 
-      unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
+      unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+        const user = await createUserProfileDocument(userAuth);
+        console.log("user:", user);
         setUser(user);
-        console.log("user :", user);
       });
     };
 
@@ -37,6 +38,7 @@ const App = () => {
     // "clean up" previously done with componentWillUnmount() to prevent memory leak //
     return () => {
       unsubscribeFromFireStore();
+      unsubscribeFromAuth();
     };
   }, []);
 
