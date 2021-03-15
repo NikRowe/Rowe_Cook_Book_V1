@@ -1,4 +1,4 @@
-import { auth } from "../firebase";
+import { auth, createUserProfileDocument } from "../firebase";
 import React, { Component } from "react";
 
 class SignUp extends Component {
@@ -21,7 +21,7 @@ class SignUp extends Component {
         password
       );
 
-      user.updateProfile({ displayName });
+      createUserProfileDocument(user, { displayName });
     } catch (error) {
       console.error(error);
     }
