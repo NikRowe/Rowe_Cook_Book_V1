@@ -29,7 +29,7 @@ const RecipesProvider = (props) => {
     return () => {
       unsubscribeFromFireStore();
     };
-  }, [children]);
+  }, []);
 
   return (
     <RecipesContext.Provider value={recipes}>
