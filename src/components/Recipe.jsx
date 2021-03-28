@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { firestore } from "../firebase";
+import { UserContext } from "../providers/UserProvider";
+
+const belongsToCurrentUser = (currentUser, recipeAuthor) => {
+  if (!currentUser) return false;
+  return currentUser.uid === recipeAuthor.uid;
+};
 
 const Recipe = ({
   title,
@@ -12,6 +18,8 @@ const Recipe = ({
   user,
   id,
 }) => {
+  const currentUser = useContext(UserContext);
+
   const postRef = firestore.doc(`recipes/${id}`);
   const remove = () => postRef.delete();
   const plate = () => postRef.update({ plates: plates + 1 });
@@ -53,9 +61,11 @@ const Recipe = ({
           <button className="recipe__info-plate" onClick={plate}>
             Plate
           </button>
-          <button className="recipe__info-delete" onClick={remove}>
-            Delete
-          </button>
+          {belongsToCurrentUser(currentUser, user) && (
+            <button className="recipe__info-delete" onClick={remove}>
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </article>
