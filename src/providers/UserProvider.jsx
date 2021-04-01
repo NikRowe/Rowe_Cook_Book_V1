@@ -16,8 +16,14 @@ const UserProvider = (props) => {
     */
     const fetchData = async () => {
       unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-        const user = await createUserProfileDocument(userAuth);
-        setUser(user);
+        if (userAuth) {
+          const userRef = await createUserProfileDocument(userAuth);
+          userRef.onSnapshot((snapshot) => {
+            setUser({ uid: snapshot.id, ...snapshot.data() });
+          });
+        }
+
+        setUser(userAuth);
       });
     };
 
