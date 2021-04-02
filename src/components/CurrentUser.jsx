@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { signOut } from "../firebase";
 
-const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
+const CurrentUser = ({ displayName, photoURL, email, children }) => {
   return (
     <section className="CurrentUser">
       <div className="CurrentUser--profile">
