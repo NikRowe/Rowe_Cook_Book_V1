@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth, firestore } from "../firebase";
+import { auth, firestore, storage } from "../firebase";
 
 const UserProfile = () => {
   const [displayName, setDisplayName] = useState("");
@@ -16,11 +16,22 @@ const UserProfile = () => {
     e.preventDefault();
 
     const { uid } = auth.currentUser;
-
     const userRef = firestore.doc(`users/${uid}`);
+    const file = imageInput && imageInput.files[0];
 
     if (displayName) {
       userRef.update({ displayName });
+    }
+
+    if (file) {
+      storage
+        .ref()
+        .child("user-profiles")
+        .child(uid)
+        .child(file.name)
+        .put(file)
+        .then((res) => res.ref.getDownloadURL())
+        .then((photoURL) => userRef.update({ photoURL }));
     }
   };
 
