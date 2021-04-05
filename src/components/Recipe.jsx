@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { firestore } from "../firebase";
 import { UserContext } from "../providers/UserProvider";
 
@@ -27,7 +28,9 @@ const Recipe = ({
   return (
     <article className="recipe">
       <div className="recipe__content">
-        <h3>{title}</h3>
+        <Link to={`/recipes/${id}`}>
+          <h3>{title}</h3>
+        </Link>
         <img src={image} alt="meal" className="recipeImg" />
         <ul>
           {ingredients.map((ingredient, i) => (

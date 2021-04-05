@@ -6,6 +6,7 @@ import Authentication from "./components/Authentication";
 import UserProfile from "./components/UserProfile";
 
 import { Switch, Route, Link } from "react-router-dom";
+import RecipePage from "./components/RecipePage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Recipes} />
         <Route exact path="/profile" component={UserProfile} />
+        <Route exact path="/recipes/:id" component={RecipePage} />
       </Switch>
     </div>
   );
