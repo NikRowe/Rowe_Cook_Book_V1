@@ -10,9 +10,9 @@ const RecipesProvider = (props) => {
 
   useEffect(() => {
     let unsubscribeFromFireStore = null;
-    /* gets firebase store data and subscribes via onSnapshot() then sets to state for visualization - this will use more api calls as it is calling the API and updating the app anytime this FB collection is being changed. 
-      
-      You can totally use .get() instead of .onSnapshot() and manually setState() so that the api is only called upon refreshing the page to reduce our API calls. 
+    /* gets firebase store data and subscribes via onSnapshot() then sets to state for visualization - this will use more api calls as it is calling the API and updating the app anytime this FB collection is being changed.
+
+      You can totally use .get() instead of .onSnapshot() and manually setState() so that the api is only called upon refreshing the page to reduce our API calls.
       */
     const fetchData = async () => {
       unsubscribeFromFireStore = firestore
