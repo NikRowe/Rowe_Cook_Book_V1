@@ -1,50 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 
-import Recipe from "./Recipe";
 import Comments from "./Comments";
 import { firestore } from "../firebase";
 import { collectIdsAndDocs } from "../utilities";
+import Recipe from "./Recipe";
 
 import { withRouter } from "react-router-dom";
+import WithUser from "./WithUser";
 
-const RecipePage = (props) => {
-  const [recipe, setRecipe] = useState(null);
-  const [comments, setComments] = useState([]);
+class RecipePage extends Component {
+  state = { Recipe: null, comments: [] };
 
-  let recipeId = props.match.params.id;
-  let recipeRef = firestore.doc(`recipes/${recipeId}`);
-  let commentsRef = recipeRef.collection("comments");
+  get recipeId() {
+    return this.props.match.params.id;
+  }
 
-  useEffect(() => {
-    let unsubscribeFromRecipe = null;
-    let unsubscribeFromComments = null;
+  get recipeRef() {
+    return firestore.doc(`recipes/${this.recipeId}`);
+  }
 
-    const fetchData = async () => {
-      unsubscribeFromRecipe = recipeRef.onSnapshot((snapshot) => {
-        const recipe = collectIdsAndDocs(snapshot);
-        setRecipe(recipe);
-      });
+  get commentsRef() {
+    return this.recipeRef.collection("comments");
+  }
 
-      unsubscribeFromComments = commentsRef.onSnapshot((snapshot) => {
-        const comments = snapshot.docs.map(collectIdsAndDocs);
-        setComments(comments);
-      });
-    };
+  unsubscribeFromrecipe = null;
+  unsubscribeFromComments = null;
 
-    fetchData();
+  componentDidMount = async () => {
+    this.unsubscribeFromrecipe = this.recipeRef.onSnapshot((snapshot) => {
+      const recipe = collectIdsAndDocs(snapshot);
+      this.setState({ recipe });
+    });
 
-    return () => {
-      unsubscribeFromRecipe();
-      unsubscribeFromComments();
-    };
-  });
+    this.unsubscribeFromComments = this.commentsRef.onSnapshot((snapshot) => {
+      const comments = snapshot.docs.map(collectIdsAndDocs);
+      this.setState({ comments });
+    });
+  };
 
-  return (
-    <section>
-      {recipe && <Recipe {...recipe} />}
-      <Comments comments={comments} onCreate={() => {}} />
-    </section>
-  );
-};
+  componentWillUnmount = () => {
+    this.unsubscribeFromrecipe();
+    this.unsubscribeFromComments();
+  };
 
-export default withRouter(RecipePage);
+  createComment = (comment) => {
+    const { user } = this.props;
+    this.commentsRef.add({
+      ...comment,
+      user,
+    });
+  };
+
+  render() {
+    const { recipe, comments } = this.state;
+    console.log("this.props :", this.props);
+    return (
+      <section>
+        {recipe && <Recipe {...recipe} />}
+        <Comments comments={comments} onCreate={this.createComment} />
+      </section>
+    );
+  }
+}
+
+export default withRouter(WithUser(RecipePage));
