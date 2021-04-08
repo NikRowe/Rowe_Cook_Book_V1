@@ -23,15 +23,36 @@
 .CurrentUser--profile h2 {
   margin-bottom: 1em;
 }
-.created-at:before {
+.created-at::before {
   content: "Joined";
   color: #de6b48;
   font-weight: bold;
   margin: 0.5em 0.5em;
 }
-.email:before {
+.email::before {
   content: "Email";
   color: #de6b48;
   font-weight: bold;
   margin: 0.5em 0.5em;
+}
+
+.Comment {
+  margin: 1em 0;
+}
+
+.Comment--author {
+  color: #de6b48;
+  font-weight: bold;
+}
+
+.Comment--author::after {
+  content: ": ";
+}
+
+.Comment--timestamp {
+  color: #93ca3f;
+}
+
+.Comment--timestamp::before {
+  content: " ";
 }
